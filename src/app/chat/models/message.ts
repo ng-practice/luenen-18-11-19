@@ -1,4 +1,4 @@
 import { MessageDraft } from './message-draft';
-import { SenderName } from './sender-name';
+import { Sender } from './sender';
 
-export type Message = MessageDraft & SenderName;
+export type Message = MessageDraft & Sender;

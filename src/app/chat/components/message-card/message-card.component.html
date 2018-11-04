@@ -1,3 +1,5 @@
-<p>
-  message-card works!
-</p>
+<p-card
+  [header]="message.sender.name"
+  [subheader]="message.writtenAt | date:'dd. MMMM HH:mm'">
+  {{ message.text }}
+</p-card>
