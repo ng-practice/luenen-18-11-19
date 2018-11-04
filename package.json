@@ -12,8 +12,14 @@
   "private": true,
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged && lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "@angular/animations": "~7.0.0",
@@ -46,6 +52,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "lint-staged": "^8.0.4",
     "prettier": "^1.14.3",
     "pretty-quick": "^1.8.0",
     "protractor": "~5.4.0",
