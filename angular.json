@@ -123,5 +123,8 @@
       }
     }
   },
-  "defaultProject": "eibelstadt"
+  "defaultProject": "eibelstadt",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
