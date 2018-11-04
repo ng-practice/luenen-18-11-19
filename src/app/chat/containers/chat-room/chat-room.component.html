@@ -1,4 +1,6 @@
-<eb-clear-history (clear)="clearChatHistory()"></eb-clear-history>
+<eb-clear-history
+[isNothingToClear]="noMessagesInChatRoom"
+(clear)="clearChatHistory()"></eb-clear-history>
 <div
   #chatHistory
   class="messages">

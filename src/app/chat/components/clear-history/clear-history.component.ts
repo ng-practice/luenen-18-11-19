@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'eb-clear-history',
@@ -6,6 +6,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./clear-history.component.scss']
 })
 export class ClearHistoryComponent {
+  @Input()
+  isNothingToClear = true;
+
   @Output()
   clear = new EventEmitter<void>();
 }
