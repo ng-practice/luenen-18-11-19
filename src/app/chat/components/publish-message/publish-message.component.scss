@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+
+  textarea {
+    flex: 4;
+    margin-right: 16px;
+  }
+
+  button {
+    flex: 1;
+  }
+}
