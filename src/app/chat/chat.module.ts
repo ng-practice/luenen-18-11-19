@@ -8,10 +8,13 @@ import { PublishMessageComponent } from './components/publish-message/publish-me
 import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
   imports: [
     CommonModule,
+
+    SocketIoModule.forRoot({ url: 'ws://localhost:3000' }),
     ButtonModule,
     CardModule,
     InputTextareaModule,
