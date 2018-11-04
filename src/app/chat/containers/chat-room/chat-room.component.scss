@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 87%;
+
+  .messages {
+    overflow: scroll;
+    margin: 16px;
+    flex: 1 1 auto;
+  }
+
+  eb-publish-messages {
+    flex: 0 1 80px;
+  }
+}
