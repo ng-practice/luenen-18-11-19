@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-publish-message',
+  selector: 'eb-publish-message',
   templateUrl: './publish-message.component.html',
   styleUrls: ['./publish-message.component.scss']
 })

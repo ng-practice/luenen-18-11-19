@@ -1,10 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PublishMessageComponent } from './components/publish-message/publish-message.component';
+import { NgModule } from '@angular/core';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ButtonModule } from 'primeng/button';
 import { MessageCardComponent } from './components/message-card/message-card.component';
+import { PublishMessageComponent } from './components/publish-message/publish-message.component';
+import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
 
 @NgModule({
-  declarations: [PublishMessageComponent, MessageCardComponent],
-  imports: [CommonModule]
+  imports: [CommonModule, ButtonModule, InputTextareaModule],
+  declarations: [
+    PublishMessageComponent,
+    MessageCardComponent,
+    ChatRoomComponent
+  ]
 })
 export class ChatModule {}

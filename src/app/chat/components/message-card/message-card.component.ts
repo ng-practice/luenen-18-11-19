@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-message-card',
+  selector: 'eb-message-card',
   templateUrl: './message-card.component.html',
   styleUrls: ['./message-card.component.scss']
 })
