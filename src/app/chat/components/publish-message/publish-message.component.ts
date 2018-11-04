@@ -1,11 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { NgxHotkeysService } from '@balticcode/ngx-hotkeys';
-
-export interface MessageDraft {
-  text: string;
-  writtenAt: Date;
-}
+import { MessageDraft } from '../../models';
 
 @Component({
   selector: 'eb-publish-message',
