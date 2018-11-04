@@ -6,9 +6,16 @@ import { MessageCardComponent } from './components/message-card/message-card.com
 import { PublishMessageComponent } from './components/publish-message/publish-message.component';
 import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
 import { ChatRoutingModule } from './chat-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, ButtonModule, InputTextareaModule, ChatRoutingModule],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    InputTextareaModule,
+    ChatRoutingModule,
+    ReactiveFormsModule
+  ],
   declarations: [
     PublishMessageComponent,
     MessageCardComponent,

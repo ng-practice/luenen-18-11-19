@@ -1,10 +1,9 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-
+import { NgxHotkeysModule } from '@balticcode/ngx-hotkeys';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChatMessagesService } from './chat/lib/chat-messages.service';
 import { ChatModule } from './chat/chat.module';
 
 @NgModule({
@@ -12,6 +11,7 @@ import { ChatModule } from './chat/chat.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgxHotkeysModule.forRoot(),
     AppRoutingModule,
     ChatModule
   ],

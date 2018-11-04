@@ -1,2 +1,8 @@
-<textarea pInputTextarea autoResize="autoResize"></textarea>
-<button pButton icon="pi pi-envelope"></button>
+<textarea
+  [formControl]="messageField"
+  pInputTextarea
+  autoResize="autoResize"></textarea>
+<button
+  pButton
+  (click)="emitMessage(emitMessage)"
+  icon="pi pi-envelope"></button>
