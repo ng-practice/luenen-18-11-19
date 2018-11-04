@@ -9,7 +9,8 @@ export enum ChatEvent {
   RequestHistory = '[Chat:Client] Load messages from history',
   HistoryLoaded = '[Chat] All past messages have been loaded',
   PublishMessage = '[Chat:Client] Publish message to the channel',
-  MessageReceived = '[Chat] A new message has been published'
+  MessageReceived = '[Chat] A new message has been published',
+  ClearHistory = '[Chat:Client] Remove messages from history'
 }
 
 @Injectable({
@@ -48,5 +49,10 @@ export class ChatMessagesService {
       ...draft,
       writtenBy: 'nobody'
     } as Message);
+  }
+
+  clear(): void {
+    this._socket.emit(ChatEvent.ClearHistory);
+    this._messages$$.next([]);
   }
 }

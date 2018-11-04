@@ -9,6 +9,7 @@ import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocketIoModule } from 'ngx-socket-io';
+import { ClearHistoryComponent } from './components/clear-history/clear-history.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { SocketIoModule } from 'ngx-socket-io';
   declarations: [
     PublishMessageComponent,
     MessageCardComponent,
-    ChatRoomComponent
+    ChatRoomComponent,
+    ClearHistoryComponent
   ]
 })
 export class ChatModule {}
