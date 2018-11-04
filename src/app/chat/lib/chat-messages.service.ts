@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { Message, MessageDraft } from '../models';
-
+import { BehaviorSubject, merge, Observable } from 'rxjs';
+import { map, tap, mergeMapTo } from 'rxjs/operators';
 import { newGuid } from 'ts-guid';
+import { Message, MessageDraft } from '../models';
 
 export enum ChatEvent {
   RequestHistory = '[Chat:Client] Load messages from history',
@@ -20,6 +19,8 @@ export class ChatMessagesService {
   _incomingMessage$: Observable<Message>;
   _history$: Observable<Message[]>;
 
+  private _messages$$ = new BehaviorSubject<Message[]>([]);
+
   constructor(private _socket: Socket) {
     this._history$ = this._socket.fromEvent(ChatEvent.HistoryLoaded);
     this._incomingMessage$ = this._socket.fromEvent(ChatEvent.MessageReceived);
@@ -28,14 +29,20 @@ export class ChatMessagesService {
   connect(): Observable<Message[]> {
     this._socket.emit(ChatEvent.RequestHistory);
 
-    return this._history$.pipe(
-      mergeMap(messages =>
-        this._incomingMessage$.pipe(map(message => [...messages, message]))
-      )
+    return merge(this._history$, this._incomingMessage$).pipe(
+      tap<Message | Message[]>(singleOrCollection => {
+        Array.isArray(singleOrCollection)
+          ? this._messages$$.next(singleOrCollection)
+          : this._messages$$.next([
+              ...this._messages$$.value,
+              singleOrCollection
+            ]);
+      }),
+      mergeMapTo(this._messages$$.asObservable())
     );
   }
 
-  send(draft: MessageDraft): void {
+  publish(draft: MessageDraft): void {
     this._socket.emit(ChatEvent.PublishMessage, {
       guid: newGuid(),
       ...draft,

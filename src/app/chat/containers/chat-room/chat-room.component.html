@@ -1,4 +1,8 @@
-<div class="messages">
-  <eb-message-card></eb-message-card>
+<div
+  #chatHistory
+  class="messages">
+  <eb-message-card
+    [message]="message"
+    *ngFor="let message of messages$ | async"></eb-message-card>
 </div>
 <eb-publish-message (send)="publishMessage($event)"></eb-publish-message>

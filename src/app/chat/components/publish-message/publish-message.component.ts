@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { NgxHotkeysService } from '@balticcode/ngx-hotkeys';
 import { MessageDraft } from '../../models';
@@ -6,7 +12,8 @@ import { MessageDraft } from '../../models';
 @Component({
   selector: 'eb-publish-message',
   templateUrl: './publish-message.component.html',
-  styleUrls: ['./publish-message.component.scss']
+  styleUrls: ['./publish-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublishMessageComponent implements OnInit {
   @Output()
