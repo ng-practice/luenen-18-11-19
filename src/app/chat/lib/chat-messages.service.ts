@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject, merge, Observable } from 'rxjs';
-import { map, tap, mergeMapTo } from 'rxjs/operators';
+import { map, mergeMapTo, tap } from 'rxjs/operators';
+import { UserService } from 'src/app/authentication/lib';
 import { newGuid } from 'ts-guid';
 import { Message, MessageDraft } from '../models';
 
@@ -22,7 +23,7 @@ export class ChatMessagesService {
 
   private _messages$$ = new BehaviorSubject<Message[]>([]);
 
-  constructor(private _socket: Socket) {
+  constructor(private _socket: Socket, private _user: UserService) {
     this._history$ = this._socket.fromEvent(ChatEvent.HistoryLoaded);
     this._incomingMessage$ = this._socket.fromEvent(ChatEvent.MessageReceived);
   }
@@ -43,12 +44,16 @@ export class ChatMessagesService {
     );
   }
 
-  publish(draft: MessageDraft): void {
-    this._socket.emit(ChatEvent.PublishMessage, {
-      guid: newGuid(),
-      ...draft,
-      writtenBy: 'nobody'
-    } as Message);
+  publish(draft: MessageDraft): Observable<void> {
+    return this._user.current().pipe(
+      map(userName =>
+        this._socket.emit(ChatEvent.PublishMessage, {
+          guid: newGuid(),
+          ...draft,
+          writtenBy: userName
+        } as Message)
+      )
+    );
   }
 
   clear(): void {

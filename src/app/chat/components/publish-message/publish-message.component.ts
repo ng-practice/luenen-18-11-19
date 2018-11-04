@@ -25,12 +25,16 @@ export class PublishMessageComponent implements OnInit {
   }
 
   emitMessage(): boolean {
-    if (this.messageField.valid) {
-      this.send.emit({
-        text: this.messageField.value,
-        writtenAt: new Date()
-      });
+    if (!this.messageField.valid) {
+      return false;
     }
+
+    this.send.emit({
+      text: this.messageField.value,
+      writtenAt: new Date()
+    });
+
+    this.messageField.reset();
 
     return false;
   }

@@ -1,0 +1,16 @@
+<div class="ui-inputgroup">
+  <span class="ui-inputgroup-addon">
+    <i class="pi pi-user"></i>
+  </span>
+  <input
+    [formControl]="userNameField"
+    pInputText
+    type="text"
+    placeholder="Nickname">
+</div>
+<button
+  pButton
+  label="Enter Chat"
+  [disabled]="userNameField.invalid"
+  (click)="emitLogin()"
+  class="ui-button-raised"></button>

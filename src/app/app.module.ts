@@ -5,6 +5,7 @@ import { NgxHotkeysModule } from '@balticcode/ngx-hotkeys';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatModule } from './chat/chat.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +14,8 @@ import { ChatModule } from './chat/chat.module';
     BrowserAnimationsModule,
     NgxHotkeysModule.forRoot(),
     AppRoutingModule,
+
+    AuthenticationModule,
     ChatModule
   ],
   providers: [],

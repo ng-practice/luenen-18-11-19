@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 export enum UserStorageKeys {
   UserName = 'Chat-User-Name'
@@ -11,7 +11,14 @@ export class UserService {
   private session: Storage = window.sessionStorage;
 
   current(): Observable<string> {
-    return of(this.session.getItem(UserStorageKeys.UserName) || '');
+    return of(this.session.getItem(UserStorageKeys.UserName)).pipe(
+      map(userName => {
+        if (userName) {
+          return userName;
+        }
+        throw new Error('UserService: No User has been found. :(');
+      })
+    );
   }
 
   login(userName: string): Observable<string> {

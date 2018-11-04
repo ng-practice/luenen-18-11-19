@@ -41,7 +41,7 @@ export class ChatRoomComponent implements AfterViewChecked {
   }
 
   publishMessage(draft: MessageDraft) {
-    this._chatMessages.publish(draft);
+    this._chatMessages.publish(draft).subscribe();
   }
 
   clearChatHistory() {
