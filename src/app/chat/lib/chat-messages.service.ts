@@ -44,6 +44,20 @@ export class ChatMessagesService {
     );
   }
 
+  /* Needed for NgRx
+   * We will split connect() into two parts due the use of Actions
+  */
+  history(): Observable<Message[]> {
+    return this._history$;
+  }
+
+  /* Needed for NgRx
+   * We will split connect() into two parts due the use of Actions
+   */
+  receiveMessage(): Observable<Message> {
+    return this._incomingMessage$;
+  }
+
   publish(draft: MessageDraft): Observable<void> {
     return this._user.current().pipe(
       map(userName =>
