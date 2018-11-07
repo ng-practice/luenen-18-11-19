@@ -10,6 +10,10 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SocketIoModule } from 'ngx-socket-io';
 import { ClearHistoryComponent } from './components/clear-history/clear-history.component';
+import { StoreModule } from '@ngrx/store';
+import * as fromChat from './store/reducers/chat.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ChatEffects } from './store/effects/chat.effects';
 
 @NgModule({
   imports: [
@@ -20,7 +24,9 @@ import { ClearHistoryComponent } from './components/clear-history/clear-history.
     CardModule,
     InputTextareaModule,
     ChatRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forFeature('chat', fromChat.reducer),
+    EffectsModule.forFeature([ChatEffects])
   ],
   declarations: [
     PublishMessageComponent,
