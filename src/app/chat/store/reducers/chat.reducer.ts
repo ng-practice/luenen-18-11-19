@@ -48,8 +48,8 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
       return {
         ...slice,
         entities: action.payload.reduce(
-          (loadedMessages, message) => ({
-            ...loadedMessages,
+          (dictionary, message) => ({
+            ...dictionary,
             [message.guid]: message
           }),
           {}

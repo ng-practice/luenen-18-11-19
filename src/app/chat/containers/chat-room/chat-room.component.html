@@ -1,6 +1,6 @@
 <header>Chat</header>
 
-<p-progressSpinner *ngIf="isMessagePending$ | async"></p-progressSpinner>
+<p-progressSpinner *ngIf="isBusy$ | async"></p-progressSpinner>
 
 <eb-clear-history
   [isNothingToClear]="noMessagesInChatRoom"

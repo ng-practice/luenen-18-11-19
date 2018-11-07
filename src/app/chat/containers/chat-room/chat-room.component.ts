@@ -1,12 +1,13 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
-  ViewChild,
   ElementRef,
   ViewChild
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
 import {

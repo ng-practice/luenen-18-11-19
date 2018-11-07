@@ -33,7 +33,7 @@ export class ChatMessageDelivered implements Action {
 export class PublishMessage {
   readonly type = ChatActionTypes.PublishMessage;
 
-  constructor(public payload: Message) {}
+  constructor(public payload: MessageDraft) {}
 }
 
 export class PublishMessageSuccess {
