@@ -8,9 +8,10 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { newGuid } from 'ts-guid';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
-import { newGuid } from 'ts-guid';
+import { PublishMessage } from '../../store/actions/chat.actions';
 
 // import * as fromChat from '../../store/reducers/chat.reducer';
 
@@ -49,14 +50,13 @@ export class ChatRoomComponent implements AfterViewChecked {
 
   publishMessage(draft: MessageDraft) {
     this._chatMessages.publish(draft).subscribe();
-    this._store.dispatch({
-      type: '[Chat] Publish Message',
-      payload: {
+    this._store.dispatch(
+      new PublishMessage({
         guid: newGuid(),
         writtenBy: 'Someone',
         ...draft
-      }
-    });
+      })
+    );
   }
 
   clearChatHistory() {
