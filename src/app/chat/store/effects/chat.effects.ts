@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { ChatActionTypes } from '../actions/chat.actions';
+import { map, switchMap } from 'rxjs/operators';
+import { ChatMessagesService } from '../../lib';
+import {
+  ChatActionTypes,
+  PublishMessage,
+  PublishMessageSuccess
+} from '../actions/chat.actions';
 
 @Injectable()
 export class ChatEffects {
   @Effect()
-  loadFoos$ = this.actions$.pipe(ofType(ChatActionTypes.LoadChats));
+  publishMessage$ = this._actions$.pipe(
+    ofType<PublishMessage>(ChatActionTypes.PublishMessage),
+    switchMap(({ payload: draft }) => this._messages.publish(draft)),
+    map(message => new PublishMessageSuccess(message))
+  );
 
-  constructor(private actions$: Actions) {}
+  constructor(
+    private _actions$: Actions,
+    private _messages: ChatMessagesService
+  ) {}
 }

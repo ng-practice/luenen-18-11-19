@@ -1,6 +1,5 @@
-import { Action } from '@ngrx/store';
-import { ChatActions, ChatActionTypes } from '../actions/chat.actions';
 import { Message } from '../../models';
+import { ChatActions, ChatActionTypes } from '../actions/chat.actions';
 
 export interface ChatSlice {
   entities: { [guid: string]: Message };
@@ -10,12 +9,18 @@ export const initialState: ChatSlice = {
   entities: {}
 };
 
-export function reducer(state = initialState, action: ChatActions): ChatSlice {
+export function reducer(slice = initialState, action: ChatActions): ChatSlice {
   switch (action.type) {
-    case ChatActionTypes.LoadChats:
-      return state;
+    case ChatActionTypes.PublishMessageSuccess:
+      return {
+        ...slice,
+        entities: {
+          ...slice.entities,
+          [action.payload.guid]: action.payload
+        }
+      };
 
     default:
-      return state;
+      return slice;
   }
 }

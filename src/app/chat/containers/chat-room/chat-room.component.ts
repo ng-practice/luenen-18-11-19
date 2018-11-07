@@ -5,7 +5,7 @@ import {
   ElementRef,
   ViewChild
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { newGuid } from 'ts-guid';
@@ -13,7 +13,7 @@ import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
 import { PublishMessage } from '../../store/actions/chat.actions';
 
-// import * as fromChat from '../../store/reducers/chat.reducer';
+import * as fromChat from '../../store/reducers';
 
 @Component({
   selector: 'eb-chat-room',
@@ -30,14 +30,18 @@ export class ChatRoomComponent implements AfterViewChecked {
   messages$: Observable<Message[]>;
 
   constructor(
-    private _store: Store<any>,
+    private _store: Store<fromChat.State>,
     private _chatMessages: ChatMessagesService
   ) {
-    this.messages$ = this._chatMessages
-      .connect()
-      .pipe(
-        tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
-      );
+    this.messages$ = this._store.pipe(
+      select(state => Object.values(state.chat.history.entities))
+    );
+
+    // this._chatMessages
+    //   .connect()
+    //   .pipe(
+    //     tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
+    //   );
   }
 
   ngAfterViewChecked(): void {
@@ -50,13 +54,7 @@ export class ChatRoomComponent implements AfterViewChecked {
 
   publishMessage(draft: MessageDraft) {
     this._chatMessages.publish(draft).subscribe();
-    this._store.dispatch(
-      new PublishMessage({
-        guid: newGuid(),
-        writtenBy: 'Someone',
-        ...draft
-      })
-    );
+    this._store.dispatch(new PublishMessage(draft));
   }
 
   clearChatHistory() {
