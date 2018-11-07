@@ -28,6 +28,7 @@ export class ChatRoomComponent implements AfterViewChecked {
   chatHistory: ElementRef<HTMLDivElement> | null = null;
 
   messages$: Observable<Message[]>;
+  isBusy$: Observable<boolean>;
 
   constructor(
     private _store: Store<fromChat.State>,
@@ -35,6 +36,10 @@ export class ChatRoomComponent implements AfterViewChecked {
   ) {
     this.messages$ = this._store.pipe(
       select(state => Object.values(state.chat.history.entities))
+    );
+
+    this.isBusy$ = this._store.pipe(
+      select(state => state.chat.history.isMessagePending)
     );
 
     // this._chatMessages

@@ -1,3 +1,5 @@
+<p-progressSpinner *ngIf="isBusy$ | async"></p-progressSpinner>
+
 <eb-clear-history
 [isNothingToClear]="noMessagesInChatRoom"
 (clear)="clearChatHistory()"></eb-clear-history>
