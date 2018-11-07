@@ -61,14 +61,12 @@ export class ChatMessagesService {
 
   publish(draft: MessageDraft): Observable<Message> {
     return this._user.current().pipe(
-      map(
-        userName => ({
-          guid: newGuid(),
-          ...draft,
-          writtenBy: userName
-        }),
-        tap(message => this._socket.emit(ChatEvent.PublishMessage, message))
-      )
+      map(userName => ({
+        guid: newGuid(),
+        ...draft,
+        writtenBy: userName
+      })),
+      tap(message => this._socket.emit(ChatEvent.PublishMessage, message))
     );
   }
 
