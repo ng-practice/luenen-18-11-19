@@ -5,14 +5,15 @@ import {
   ElementRef,
   ViewChild
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { newGuid } from 'ts-guid';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
-import { PublishMessage } from '../../store/actions/chat.actions';
-
+import {
+  ListenForIncomingMessage,
+  LoadChatHistory,
+  PublishMessage
+} from '../../store/actions/chat.actions';
 import * as fromChat from '../../store/reducers';
 
 @Component({
@@ -34,6 +35,9 @@ export class ChatRoomComponent implements AfterViewChecked {
     private _store: Store<fromChat.State>,
     private _chatMessages: ChatMessagesService
   ) {
+    this._store.dispatch(new LoadChatHistory());
+    this._store.dispatch(new ListenForIncomingMessage());
+
     this.messages$ = this._store.pipe(
       select(state => Object.values(state.chat.history.entities))
     );
@@ -41,12 +45,6 @@ export class ChatRoomComponent implements AfterViewChecked {
     this.isBusy$ = this._store.pipe(
       select(state => state.chat.history.isMessagePending)
     );
-
-    // this._chatMessages
-    //   .connect()
-    //   .pipe(
-    //     tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
-    //   );
   }
 
   ngAfterViewChecked(): void {
@@ -58,7 +56,6 @@ export class ChatRoomComponent implements AfterViewChecked {
   }
 
   publishMessage(draft: MessageDraft) {
-    this._chatMessages.publish(draft).subscribe();
     this._store.dispatch(new PublishMessage(draft));
   }
 
