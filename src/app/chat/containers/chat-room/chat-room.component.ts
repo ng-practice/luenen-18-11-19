@@ -1,14 +1,18 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   Component,
-  ViewChild,
   ElementRef,
-  AfterViewChecked
+  ViewChild
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
-import { tap } from 'rxjs/operators';
+import { newGuid } from 'ts-guid';
+
+// import * as fromChat from '../../store/reducers/chat.reducer';
 
 @Component({
   selector: 'eb-chat-room',
@@ -24,7 +28,10 @@ export class ChatRoomComponent implements AfterViewChecked {
 
   messages$: Observable<Message[]>;
 
-  constructor(private _chatMessages: ChatMessagesService) {
+  constructor(
+    private _store: Store<any>,
+    private _chatMessages: ChatMessagesService
+  ) {
     this.messages$ = this._chatMessages
       .connect()
       .pipe(
@@ -42,6 +49,14 @@ export class ChatRoomComponent implements AfterViewChecked {
 
   publishMessage(draft: MessageDraft) {
     this._chatMessages.publish(draft).subscribe();
+    this._store.dispatch({
+      type: '[Chat] Publish Message',
+      payload: {
+        guid: newGuid(),
+        writtenBy: 'Someone',
+        ...draft
+      }
+    });
   }
 
   clearChatHistory() {
