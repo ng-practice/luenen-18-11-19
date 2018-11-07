@@ -1,14 +1,33 @@
 import { Action } from '@ngrx/store';
-import { Message } from '../../models';
+import { Message, MessageDraft } from '../../models';
 
 export enum ChatActionTypes {
-  LoadChats = '[Chat] Load Chats',
+  LoadChatHistory = '[Chat] Load Chat History',
+  ChatHistoryReceived = '[Chat/API] Load Chat History Success',
+  ListenForIncomingMessage = '[Chat] Listen For New Messages',
+  ChatMessageDelivered = '[Chat/API] Chat Message delivered',
   PublishMessage = '[Chat] Publish Message',
-  PublishMessageSuccess = '[Chat] Publish Message Success'
+  PublishMessageSuccess = '[Chat/API] Publish Message Success'
 }
 
-export class LoadChats implements Action {
-  readonly type = ChatActionTypes.LoadChats;
+export class LoadChatHistory implements Action {
+  readonly type = ChatActionTypes.LoadChatHistory;
+}
+
+export class ListenForIncomingMessage implements Action {
+  readonly type = ChatActionTypes.ListenForIncomingMessage;
+}
+
+export class ChatHistoryReceived implements Action {
+  readonly type = ChatActionTypes.ChatHistoryReceived;
+
+  constructor(public payload: Message[]) {}
+}
+
+export class ChatMessageDelivered implements Action {
+  readonly type = ChatActionTypes.ChatMessageDelivered;
+
+  constructor(public payload: Message) {}
 }
 
 export class PublishMessage {
@@ -23,4 +42,10 @@ export class PublishMessageSuccess {
   constructor(public payload: Message) {}
 }
 
-export type ChatActions = LoadChats | PublishMessage | PublishMessageSuccess;
+// Step 3
+export type ChatActions =
+  | LoadChatHistory
+  | PublishMessage
+  | PublishMessageSuccess
+  | ChatMessageDelivered
+  | ChatHistoryReceived;

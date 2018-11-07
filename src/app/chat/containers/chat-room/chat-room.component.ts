@@ -3,16 +3,17 @@ import {
   Component,
   ViewChild,
   ElementRef,
-  AfterViewChecked
+  ViewChild
 } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
-import { tap } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
-import { newGuid } from 'ts-guid';
-import { PublishMessage } from '../../store/actions/chat.actions';
-
+import {
+  ListenForIncomingMessage,
+  LoadChatHistory,
+  PublishMessage
+} from '../../store/actions/chat.actions';
 import * as fromChat from '../../store/reducers';
 
 @Component({
@@ -27,20 +28,23 @@ export class ChatRoomComponent implements AfterViewChecked {
   @ViewChild('chatHistory')
   chatHistory: ElementRef<HTMLDivElement> | null = null;
 
-  isMessagePending$: Observable<boolean>;
   messages$: Observable<Message[]>;
+  isBusy$: Observable<boolean>;
 
   constructor(
     private _store: Store<fromChat.State>,
     private _chatMessages: ChatMessagesService
   ) {
+    this._store.dispatch(new LoadChatHistory());
+    this._store.dispatch(new ListenForIncomingMessage());
+
     this.messages$ = this._store.pipe(
       select(s => Object.values(s.chat.history.entities)),
       tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
     );
 
-    this.isMessagePending$ = this._store.pipe(
-      select(s => s.chat.history.isMessagePending)
+    this.isBusy$ = this._store.pipe(
+      select(state => state.chat.history.isMessagePending)
     );
   }
 
@@ -53,16 +57,7 @@ export class ChatRoomComponent implements AfterViewChecked {
   }
 
   publishMessage(draft: MessageDraft) {
-    this._chatMessages.publish(draft).subscribe();
-
-    this._store.dispatch(
-      new PublishMessage({
-        guid: newGuid(),
-        text: draft.text,
-        writtenAt: draft.writtenAt,
-        writtenBy: 'Anonymus'
-      })
-    );
+    this._store.dispatch(new PublishMessage(draft));
   }
 
   clearChatHistory() {

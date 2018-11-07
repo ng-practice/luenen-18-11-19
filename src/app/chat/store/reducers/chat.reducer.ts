@@ -34,6 +34,28 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
         isMessagePending: false
       };
 
+    case ChatActionTypes.ChatMessageDelivered:
+      return {
+        ...slice,
+        entities: {
+          ...slice.entities,
+          [action.payload.guid]: action.payload
+        },
+        isMessagePending: false
+      };
+
+    case ChatActionTypes.ChatHistoryReceived:
+      return {
+        ...slice,
+        entities: action.payload.reduce(
+          (loadedMessages, message) => ({
+            ...loadedMessages,
+            [message.guid]: message
+          }),
+          {}
+        )
+      };
+
     default:
       return slice;
   }

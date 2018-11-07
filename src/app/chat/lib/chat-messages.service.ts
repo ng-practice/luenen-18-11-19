@@ -18,7 +18,7 @@ export enum ChatEvent {
   providedIn: 'root'
 })
 export class ChatMessagesService {
-  _incomingMessage$: Observable<Message>;
+  private _incomingMessage$: Observable<Message>;
   _history$: Observable<Message[]>;
 
   private _messages$$ = new BehaviorSubject<Message[]>([]);
@@ -48,6 +48,7 @@ export class ChatMessagesService {
    * We will split connect() into two parts due the use of Actions
   */
   history(): Observable<Message[]> {
+    this._socket.emit(ChatEvent.RequestHistory);
     return this._history$;
   }
 
