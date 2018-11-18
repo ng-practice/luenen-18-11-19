@@ -1,8 +1,17 @@
 :host {
+  height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 90%;
+
+  header {
+    font-size: 24px;
+    padding-left: 16px;
+    margin-bottom: 16px;
+    background-color: #dadada;
+    height: 40px;
+    flex: 0 1 auto;
+  }
 
   .messages {
     overflow: scroll;
