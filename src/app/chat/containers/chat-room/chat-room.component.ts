@@ -15,6 +15,7 @@ import {
   PublishMessage
 } from '../../store/actions/chat.actions';
 import * as fromChat from '../../store/reducers';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'eb-chat-room',
@@ -39,7 +40,8 @@ export class ChatRoomComponent implements AfterViewChecked {
     this._store.dispatch(new ListenForIncomingMessage());
 
     this.messages$ = this._store.pipe(
-      select(state => Object.values(state.chat.history.entities))
+      select(state => Object.values(state.chat.history.entities)),
+      tap(({ length }) => (this.noMessagesInChatRoom = length === 0))
     );
 
     this.isBusy$ = this._store.pipe(
