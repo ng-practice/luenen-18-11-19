@@ -20,9 +20,7 @@ export class PublishMessageComponent implements OnInit {
   send = new EventEmitter<MessageDraft>();
   messageField = new FormControl('', Validators.required);
 
-  constructor(private _hotKeys: NgxHotkeysService) {
-    this._registerHotkeys();
-  }
+  constructor() {}
 
   emitMessage(): boolean {
     if (!this.messageField.valid) {
@@ -40,12 +38,4 @@ export class PublishMessageComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  private _registerHotkeys() {
-    this._hotKeys.register({
-      combo: 'ctrl+enter',
-      handler: () => this.emitMessage(),
-      description: 'Send Message to Chat Partners'
-    });
-  }
 }

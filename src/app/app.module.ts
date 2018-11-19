@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxHotkeysModule } from '@balticcode/ngx-hotkeys';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChatModule } from './chat/chat.module';
@@ -17,7 +16,6 @@ import { EffectsModule } from '@ngrx/effects';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxHotkeysModule.forRoot(),
     AppRoutingModule,
 
     AuthenticationModule,

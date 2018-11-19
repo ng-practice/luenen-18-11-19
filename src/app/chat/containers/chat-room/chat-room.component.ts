@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
 import {
@@ -15,7 +16,6 @@ import {
   PublishMessage
 } from '../../store/actions/chat.actions';
 import * as fromChat from '../../store/reducers';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'eb-chat-room',
@@ -41,7 +41,8 @@ export class ChatRoomComponent implements AfterViewChecked {
 
     this.messages$ = this._store.pipe(
       select(state => Object.values(state.chat.history.entities)),
-      tap(({ length }) => (this.noMessagesInChatRoom = length === 0))
+      tap(({ length }) => (this.noMessagesInChatRoom = length === 0)),
+      tap(messages => console.log('Messages', messages))
     );
 
     this.isBusy$ = this._store.pipe(

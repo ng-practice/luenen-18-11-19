@@ -8,11 +8,11 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { ChatRoutingModule } from './chat-routing.module';
 import { ClearHistoryComponent } from './components/clear-history/clear-history.component';
 import { MessageCardComponent } from './components/message-card/message-card.component';
 import { PublishMessageComponent } from './components/publish-message/publish-message.component';
 import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
+import { ChatRoutingModule } from './chat-routing.module';
 import { ChatEffects } from './store/effects/chat.effects';
 import * as fromChat from './store/reducers';
 
@@ -24,12 +24,13 @@ import * as fromChat from './store/reducers';
     ButtonModule,
     CardModule,
     InputTextareaModule,
-    ChatRoutingModule,
     ProgressSpinnerModule,
 
     ReactiveFormsModule,
     StoreModule.forFeature('chat', fromChat.reducers),
-    EffectsModule.forFeature([ChatEffects])
+    EffectsModule.forFeature([ChatEffects]),
+
+    ChatRoutingModule
   ],
   declarations: [
     PublishMessageComponent,
