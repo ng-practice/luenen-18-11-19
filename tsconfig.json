@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "allowJs": true,
     "strict": true,
     "sourceMap": true,
     "declaration": false,
