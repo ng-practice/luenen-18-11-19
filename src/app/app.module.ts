@@ -12,7 +12,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxHotkeysModule.forRoot(),
     AppRoutingModule,
 
     AuthenticationModule,
