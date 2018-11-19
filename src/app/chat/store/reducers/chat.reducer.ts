@@ -14,12 +14,18 @@ export const initialSlice: ChatSlice = {
   entities: {}
 };
 
-export function reducer(state = initialSlice, action: ChatActions): ChatSlice {
+export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
   switch (action.type) {
-    case ChatActionTypes.LoadChats:
-      return state;
+    case ChatActionTypes.PublishMessage:
+      return {
+        ...slice,
+        entities: {
+          ...slice.entities,
+          [action.payload.guid]: action.payload
+        }
+      };
 
     default:
-      return state;
+      return slice;
   }
 }
