@@ -3,7 +3,8 @@ import { Message } from '../../models';
 
 export enum ChatActionTypes {
   LoadChats = '[Chat] Load Chats',
-  PublishMessage = '[Chat] Publish Message'
+  PublishMessage = '[Chat] Publish Message',
+  PublishMessageSuccess = '[Chat] Publish Message Success'
 }
 
 export class LoadChats implements Action {
@@ -16,4 +17,10 @@ export class PublishMessage {
   constructor(public payload: Message) {}
 }
 
-export type ChatActions = LoadChats | PublishMessage;
+export class PublishMessageSuccess {
+  readonly type = ChatActionTypes.PublishMessageSuccess;
+
+  constructor(public payload: Message) {}
+}
+
+export type ChatActions = LoadChats | PublishMessage | PublishMessageSuccess;

@@ -8,10 +8,12 @@ export interface Dictionary<T> {
 export interface ChatSlice {
   // entities: { [guid: string]: Message };
   entities: Dictionary<Message>;
+  isMessagePending: boolean;
 }
 
 export const initialSlice: ChatSlice = {
-  entities: {}
+  entities: {},
+  isMessagePending: false
 };
 
 export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
@@ -19,10 +21,17 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
     case ChatActionTypes.PublishMessage:
       return {
         ...slice,
+        isMessagePending: true
+      };
+
+    case ChatActionTypes.PublishMessageSuccess:
+      return {
+        ...slice,
         entities: {
           ...slice.entities,
           [action.payload.guid]: action.payload
-        }
+        },
+        isMessagePending: false
       };
 
     default:

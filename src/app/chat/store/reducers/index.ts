@@ -12,7 +12,7 @@ export interface ChatState {
 
 /* This interface is needed since "chat" is the name of the feature we have generated before */
 export interface State extends fromRoot.State {
-  [name]: ChatState;
+  chat: ChatState;
 }
 
 export const reducers: ActionReducerMap<ChatState, ChatActions> = {

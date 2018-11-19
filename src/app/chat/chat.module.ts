@@ -7,6 +7,7 @@ import { SocketIoModule } from 'ngx-socket-io';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ClearHistoryComponent } from './components/clear-history/clear-history.component';
 import { MessageCardComponent } from './components/message-card/message-card.component';
@@ -24,6 +25,7 @@ import * as fromChat from './store/reducers';
     CardModule,
     InputTextareaModule,
     ChatRoutingModule,
+    ProgressSpinnerModule,
     ReactiveFormsModule,
     StoreModule.forFeature(fromChat.name, fromChat.reducers),
     EffectsModule.forFeature([ChatEffects])

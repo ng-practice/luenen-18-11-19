@@ -9,9 +9,11 @@ import { Observable } from 'rxjs';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
 import { tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { newGuid } from 'ts-guid';
 import { PublishMessage } from '../../store/actions/chat.actions';
+
+import * as fromChat from '../../store/reducers';
 
 @Component({
   selector: 'eb-chat-room',
@@ -25,17 +27,21 @@ export class ChatRoomComponent implements AfterViewChecked {
   @ViewChild('chatHistory')
   chatHistory: ElementRef<HTMLDivElement> | null = null;
 
+  isMessagePending$: Observable<boolean>;
   messages$: Observable<Message[]>;
 
   constructor(
-    private _store: Store<any>,
+    private _store: Store<fromChat.State>,
     private _chatMessages: ChatMessagesService
   ) {
-    this.messages$ = this._chatMessages
-      .connect()
-      .pipe(
-        tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
-      );
+    this.messages$ = this._store.pipe(
+      select(s => Object.values(s.chat.history.entities)),
+      tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
+    );
+
+    this.isMessagePending$ = this._store.pipe(
+      select(s => s.chat.history.isMessagePending)
+    );
   }
 
   ngAfterViewChecked(): void {

@@ -1,7 +1,10 @@
 <header>Chat</header>
+
+<p-progressSpinner *ngIf="isMessagePending$ | async"></p-progressSpinner>
+
 <eb-clear-history
-[isNothingToClear]="noMessagesInChatRoom"
-(clear)="clearChatHistory()"></eb-clear-history>
+  [isNothingToClear]="noMessagesInChatRoom"
+  (clear)="clearChatHistory()"></eb-clear-history>
 <div
   #chatHistory
   class="messages">
