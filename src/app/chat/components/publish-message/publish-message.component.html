@@ -1,5 +1,6 @@
 <textarea
   [formControl]="messageField"
+  (keydown.meta.enter)="emitMessage(emitMessage)"
   pInputTextarea
   autoResize="autoResize"></textarea>
 <button

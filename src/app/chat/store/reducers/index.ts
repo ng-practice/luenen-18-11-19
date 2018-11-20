@@ -1,4 +1,8 @@
-import { ActionReducerMap } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector
+} from '@ngrx/store';
 import * as fromRoot from '../../../reducers';
 import { ChatActions } from '../actions/chat.actions';
 import * as fromChat from './chat.reducer';
@@ -18,3 +22,14 @@ export interface State extends fromRoot.State {
 export const reducers: ActionReducerMap<ChatState, ChatActions> = {
   history: fromChat.reducer
 };
+
+const visitChat = createFeatureSelector<ChatState>('chat');
+
+export const all = createSelector(visitChat, c =>
+  Object.values(c.history.entities)
+);
+
+export const isMessagePending = createSelector(
+  visitChat,
+  c => c.history.isMessagePending
+);

@@ -7,7 +7,7 @@ import {
   Inject
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import { Message, MessageDraft } from '../../models';
@@ -47,13 +47,11 @@ export class ChatRoomComponent implements AfterViewChecked {
     this._store.dispatch(new ListenForIncomingMessage());
 
     this.messages$ = this._store.pipe(
-      select(s => Object.values(s.chat.history.entities)),
+      select(fromChat.all),
       tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
     );
 
-    this.isBusy$ = this._store.pipe(
-      select(state => state.chat.history.isMessagePending)
-    );
+    this.isBusy$ = this._store.pipe(select(fromChat.isMessagePending));
   }
 
   ngAfterViewChecked(): void {
