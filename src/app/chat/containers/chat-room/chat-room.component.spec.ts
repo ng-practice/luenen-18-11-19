@@ -1,15 +1,16 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Kentan } from '@kentan-official/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { WrappedSocket } from 'ngx-socket-io/src/socket-io.service';
+import { ForChat } from 'src/app/test/sketches';
 import { MessageCardComponent } from '../../components/message-card/message-card.component';
 import { PublishMessageComponent } from '../../components/publish-message/publish-message.component';
 import { Message } from '../../models';
 import { PublishMessageSuccess } from '../../store/actions/chat.actions';
 import { ChatState, reducers } from '../../store/reducers';
 import { ChatRoomComponent } from './chat-room.component';
-import { CardModule } from 'primeng/card';
 
 describe('<chat-room>', () => {
   describe('When a message is stored', () => {
@@ -19,9 +20,12 @@ describe('<chat-room>', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          StoreModule.forRoot({
-            chat: combineReducers(reducers)
-          } as any)
+          StoreModule.forRoot(
+            {
+              chat: combineReducers(reducers)
+            } as any,
+            { initialState: { chat: Kentan.sketch(ForChat).model() } }
+          )
         ],
         providers: [
           {
@@ -42,11 +46,16 @@ describe('<chat-room>', () => {
 
       chatRoomFixture = TestBed.createComponent(ChatRoomComponent);
       store = TestBed.get(Store);
+      chatRoomFixture.detectChanges();
     }));
 
-    it('should display one message', () => {
+    it('should display a new message', () => {
+      const existingMessages = chatRoomFixture.debugElement.queryAll(
+        By.css('eb-message-card')
+      );
+
       store.dispatch(
-        new PublishMessageSuccess({ guid: '1', text: 'huhuh' } as Message)
+        new PublishMessageSuccess({ guid: '13', text: 'Hallo' } as Message)
       );
       chatRoomFixture.detectChanges();
 
@@ -54,7 +63,7 @@ describe('<chat-room>', () => {
         By.css('eb-message-card')
       );
 
-      expect(messages.length).toBe(1);
+      expect(messages.length).toBe(existingMessages.length + 1);
     });
   });
 });
