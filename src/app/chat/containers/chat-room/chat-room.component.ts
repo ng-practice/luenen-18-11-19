@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  ViewChild
+  ViewChild,
+  Inject
 } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,6 +17,8 @@ import {
   PublishMessage
 } from '../../store/actions/chat.actions';
 import * as fromChat from '../../store/reducers';
+import { Ducks } from '@co-it/ngrx-ducks';
+import { ChatDucks } from '../../store/ducks/chat.ducks';
 
 @Component({
   selector: 'eb-chat-room',
@@ -34,8 +37,12 @@ export class ChatRoomComponent implements AfterViewChecked {
 
   constructor(
     private _store: Store<fromChat.State>,
-    private _chatMessages: ChatMessagesService
+    private _chatMessages: ChatMessagesService,
+    @Inject(ChatDucks) private _ducks: Ducks<ChatDucks>
   ) {
+    // Ducks Sneak Peak
+    // this._ducks.loadHistory.dispatch();
+    // this._ducks.setHistory.plain();
     this._store.dispatch(new LoadChatHistory());
     this._store.dispatch(new ListenForIncomingMessage());
 

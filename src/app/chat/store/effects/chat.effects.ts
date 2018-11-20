@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { Ducks } from '@co-it/ngrx-ducks';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import * as Chat from '../actions/chat.actions';
 import { ChatActionTypes } from '../actions/chat.actions';
+import { ChatDucks } from '../ducks/chat.ducks';
 
 @Injectable()
 export class ChatEffects {
@@ -16,7 +18,7 @@ export class ChatEffects {
 
   @Effect()
   loadChatHistory$ = this._actions$.pipe(
-    ofType<Chat.LoadChatHistory>(ChatActionTypes.LoadChatHistory),
+    ofType<Chat.LoadChatHistory>(this._ducks.loadHistory.type),
     switchMap(() => this._messages.history()),
     map(messages => new Chat.ChatHistoryReceived(messages))
   );
@@ -32,6 +34,7 @@ export class ChatEffects {
 
   constructor(
     private _actions$: Actions,
-    private _messages: ChatMessagesService
+    private _messages: ChatMessagesService,
+    @Inject(ChatDucks) private _ducks: Ducks<ChatDucks>
   ) {}
 }

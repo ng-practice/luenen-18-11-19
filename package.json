@@ -32,6 +32,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "@balticcode/ngx-hotkeys": "^2.1.3",
+    "@co-it/ngrx-ducks": "^7.0.1-alpha.1",
     "@ngrx/effects": "^6.1.2",
     "@ngrx/entity": "^6.1.2",
     "@ngrx/router-store": "^6.1.2",

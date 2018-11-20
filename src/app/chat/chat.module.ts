@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { SocketIoModule } from 'ngx-socket-io';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -15,6 +15,8 @@ import { PublishMessageComponent } from './components/publish-message/publish-me
 import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
 import { ChatEffects } from './store/effects/chat.effects';
 import * as fromChat from './store/reducers';
+import { ChatDucks, chatDucks } from './store/ducks/chat.ducks';
+import { createDucks } from '@co-it/ngrx-ducks';
 
 @NgModule({
   imports: [
@@ -35,6 +37,15 @@ import * as fromChat from './store/reducers';
     MessageCardComponent,
     ChatRoomComponent,
     ClearHistoryComponent
+  ],
+  providers: [
+    {
+      provide: ChatDucks,
+      useFactory(store: Store<any>) {
+        return createDucks(chatDucks, store);
+      },
+      deps: [Store]
+    }
   ]
 })
 export class ChatModule {}

@@ -298,6 +298,13 @@
     mousetrap "^1.6.1"
     tslib "^1.9.0"
 
+"@co-it/ngrx-ducks@^7.0.1-alpha.1":
+  version "7.0.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@co-it/ngrx-ducks/-/ngrx-ducks-7.0.1-alpha.1.tgz#4366e1eab42dd9091e09432eda9c16fbf6b8b2aa"
+  integrity sha512-hM3EYVRRf8zmzX8cZlrFnbrt9Tdd2dsgcpocDPCnfHRA/iLA0CSDs4VoQRSBz5TFDPtysArQrw2mGOEHa4woIg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngrx/effects@^6.1.2":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.2.tgz#602f3ee9798e00179075ddef030ded88c28b1aa1"
