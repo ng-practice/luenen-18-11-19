@@ -44,6 +44,10 @@ function addSingleMessage(
   action: PublishMessageSuccess | ChatMessageDelivered,
   slice: ChatSlice
 ) {
+  if (!action.payload.guid || !action.payload.writtenBy) {
+    return slice;
+  }
+
   const newSlice = adapter.addOne(action.payload, slice);
   return { ...newSlice, isMessagePending: false };
 }
