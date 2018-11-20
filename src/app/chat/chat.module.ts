@@ -17,6 +17,7 @@ import { ChatEffects } from './store/effects/chat.effects';
 import * as fromChat from './store/reducers';
 import { ChatDucks, chatDucks } from './store/ducks/chat.ducks';
 import { createDucks } from '@co-it/ngrx-ducks';
+import { ChatMessageDetailsComponent } from './containers/chat-message-details/chat-message-details.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { createDucks } from '@co-it/ngrx-ducks';
     PublishMessageComponent,
     MessageCardComponent,
     ChatRoomComponent,
-    ClearHistoryComponent
+    ClearHistoryComponent,
+    ChatMessageDetailsComponent
   ],
   providers: [
     {

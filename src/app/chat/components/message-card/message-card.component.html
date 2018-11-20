@@ -2,4 +2,5 @@
   [header]="message.writtenBy"
   [subheader]="message.writtenAt | date:'dd. MMMM HH:mm'">
   {{ message.text }}
+  <a [routerLink]="['/message', message.guid]">Details</a>
 </p-card>
