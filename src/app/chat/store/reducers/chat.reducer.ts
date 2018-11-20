@@ -1,5 +1,10 @@
 import { Message } from '../../models';
-import { ChatActions, ChatActionTypes } from '../actions/chat.actions';
+import {
+  ChatActions,
+  ChatActionTypes,
+  PublishMessageSuccess,
+  ChatMessageDelivered
+} from '../actions/chat.actions';
 
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
@@ -25,9 +30,7 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
 
     case ChatActionTypes.ChatMessageDelivered:
     case ChatActionTypes.PublishMessageSuccess:
-      const newSlice = adapter.addOne(action.payload, slice);
-      newSlice.isMessagePending = false;
-      return newSlice;
+      return addSingleMessage(action, slice);
 
     case ChatActionTypes.ChatHistoryReceived:
       return adapter.addAll(action.payload, slice);
@@ -35,4 +38,12 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
     default:
       return slice;
   }
+}
+
+function addSingleMessage(
+  action: PublishMessageSuccess | ChatMessageDelivered,
+  slice: ChatSlice
+) {
+  const newSlice = adapter.addOne(action.payload, slice);
+  return { ...newSlice, isMessagePending: false };
 }

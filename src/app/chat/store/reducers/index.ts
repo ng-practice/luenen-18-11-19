@@ -24,12 +24,12 @@ export const reducers: ActionReducerMap<ChatState, ChatActions> = {
 };
 
 const visitChat = createFeatureSelector<ChatState>('chat');
+const selectHistory = createSelector(visitChat, s => s.history);
 
-export const entities = createSelector(visitChat, c => c.history.entities);
-
-export const all = createSelector(visitChat, c =>
-  Object.values(c.history.entities)
-);
+export const {
+  selectAll: all,
+  selectEntities: entities
+} = fromChat.adapter.getSelectors(selectHistory);
 
 export const isMessagePending = createSelector(
   visitChat,
