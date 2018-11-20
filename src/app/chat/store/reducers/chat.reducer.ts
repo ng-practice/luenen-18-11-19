@@ -1,20 +1,19 @@
 import { Message } from '../../models';
 import { ChatActions, ChatActionTypes } from '../actions/chat.actions';
 
-export interface Dictionary<T> {
-  [guid: string]: T;
-}
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
-export interface ChatSlice {
-  // entities: { [guid: string]: Message };
-  entities: Dictionary<Message>;
+export interface ChatSlice extends EntityState<Message> {
   isMessagePending: boolean;
 }
 
-export const initialSlice: ChatSlice = {
-  entities: {},
+export const adapter = createEntityAdapter<Message>({
+  selectId: message => message.guid
+});
+
+export const initialSlice = adapter.getInitialState({
   isMessagePending: false
-};
+});
 
 export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
   switch (action.type) {
@@ -24,37 +23,14 @@ export function reducer(slice = initialSlice, action: ChatActions): ChatSlice {
         isMessagePending: true
       };
 
-    case ChatActionTypes.PublishMessageSuccess:
-      return {
-        ...slice,
-        entities: {
-          ...slice.entities,
-          [action.payload.guid]: action.payload
-        },
-        isMessagePending: false
-      };
-
     case ChatActionTypes.ChatMessageDelivered:
-      return {
-        ...slice,
-        entities: {
-          ...slice.entities,
-          [action.payload.guid]: action.payload
-        },
-        isMessagePending: false
-      };
+    case ChatActionTypes.PublishMessageSuccess:
+      const newSlice = adapter.addOne(action.payload, slice);
+      newSlice.isMessagePending = false;
+      return newSlice;
 
     case ChatActionTypes.ChatHistoryReceived:
-      return {
-        ...slice,
-        entities: action.payload.reduce(
-          (dictionary, message) => ({
-            ...dictionary,
-            [message.guid]: message
-          }),
-          {}
-        )
-      };
+      return adapter.addAll(action.payload, slice);
 
     default:
       return slice;
