@@ -1,9 +1,13 @@
+<app-message-input (publish)="handle($event)"></app-message-input>
+
 <textarea
   [formControl]="messageField"
   (keydown.meta.enter)="emitMessage(emitMessage)"
   pInputTextarea
-  autoResize="autoResize"></textarea>
+  autoResize="autoResize"
+></textarea>
 <button
   pButton
   (click)="emitMessage(emitMessage)"
-  icon="pi pi-envelope"></button>
+  icon="pi pi-envelope"
+></button>

@@ -32,4 +32,11 @@ export class PublishMessageComponent {
 
     return false;
   }
+
+  handle(evr: CustomEvent) {
+    this.send.emit({
+      text: evr.detail.text,
+      writtenAt: evr.detail.writtenAt
+    });
+  }
 }

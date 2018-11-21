@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { createDucks } from '@co-it/ngrx-ducks';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { SocketIoModule } from 'ngx-socket-io';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -12,12 +13,11 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { ClearHistoryComponent } from './components/clear-history/clear-history.component';
 import { MessageCardComponent } from './components/message-card/message-card.component';
 import { PublishMessageComponent } from './components/publish-message/publish-message.component';
+import { ChatMessageDetailsComponent } from './containers/chat-message-details/chat-message-details.component';
 import { ChatRoomComponent } from './containers/chat-room/chat-room.component';
+import { ChatDucks, chatDucks } from './store/ducks/chat.ducks';
 import { ChatEffects } from './store/effects/chat.effects';
 import * as fromChat from './store/reducers';
-import { ChatDucks, chatDucks } from './store/ducks/chat.ducks';
-import { createDucks } from '@co-it/ngrx-ducks';
-import { ChatMessageDetailsComponent } from './containers/chat-message-details/chat-message-details.component';
 
 @NgModule({
   imports: [
@@ -48,6 +48,7 @@ import { ChatMessageDetailsComponent } from './containers/chat-message-details/c
       },
       deps: [Store]
     }
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ChatModule {}
