@@ -5,7 +5,7 @@ import {
 } from '@ngrx/store';
 import { ChatActions } from '../actions/chat.actions';
 import * as fromChat from './chat.reducer';
-import * as fromRoot from '@root';
+import * as fromRoot from '../../../store/reducers';
 
 export const name = 'chat';
 
@@ -24,12 +24,19 @@ export const reducers: ActionReducerMap<ChatState, ChatActions> = {
 };
 
 const visitChat = createFeatureSelector<ChatState>('chat');
-const selectHistory = createSelector(visitChat, s => s.history);
+const selectHistory = createSelector(
+  visitChat,
+  s => s.history
+);
 
-export const {
-  selectAll: all,
-  selectEntities: entities
-} = fromChat.adapter.getSelectors(selectHistory);
+export const { selectEntities: entities } = fromChat.adapter.getSelectors(
+  selectHistory
+);
+
+export const all = createSelector(
+  visitChat,
+  c => Object.values(c.history.entities)
+);
 
 export const isMessagePending = createSelector(
   visitChat,

@@ -35,11 +35,7 @@ export class ChatRoomComponent implements AfterViewChecked {
   messages$: Observable<Message[]>;
   isBusy$: Observable<boolean>;
 
-  constructor(
-    private _store: Store<fromChat.State>,
-    private _chatMessages: ChatMessagesService,
-    @Inject(ChatDucks) private _ducks: Ducks<ChatDucks>
-  ) {
+  constructor(private _store: Store<fromChat.State>) {
     // Ducks Sneak Peak
     // this._ducks.loadHistory.dispatch();
     // this._ducks.setHistory.plain();
@@ -48,7 +44,8 @@ export class ChatRoomComponent implements AfterViewChecked {
 
     this.messages$ = this._store.pipe(
       select(fromChat.all),
-      tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
+      tap(messages => (this.noMessagesInChatRoom = messages.length === 0)),
+      tap(messages => console.log(messages))
     );
 
     this.isBusy$ = this._store.pipe(select(fromChat.isMessagePending));
@@ -67,6 +64,6 @@ export class ChatRoomComponent implements AfterViewChecked {
   }
 
   clearChatHistory() {
-    this._chatMessages.clear();
+    // this._chatMessages.clear();
   }
 }

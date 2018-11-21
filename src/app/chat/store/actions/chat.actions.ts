@@ -7,7 +7,8 @@ export enum ChatActionTypes {
   ListenForIncomingMessage = '[Chat] Listen For New Messages',
   ChatMessageDelivered = '[Chat/API] Chat Message delivered',
   PublishMessage = '[Chat] Publish Message',
-  PublishMessageSuccess = '[Chat/API] Publish Message Success'
+  PublishMessageSuccess = '[Chat/API] Publish Message Success',
+  PublishMessageError = '[Chat/API] Publish Message Error'
 }
 
 export class LoadChatHistory implements Action {
@@ -42,10 +43,17 @@ export class PublishMessageSuccess {
   constructor(public payload: Message) {}
 }
 
+export class PublishMessageError {
+  readonly type = ChatActionTypes.PublishMessageError;
+
+  constructor(public payload: Error) {}
+}
+
 // Step 3
 export type ChatActions =
   | LoadChatHistory
   | PublishMessage
   | PublishMessageSuccess
+  | PublishMessageError
   | ChatMessageDelivered
   | ChatHistoryReceived;

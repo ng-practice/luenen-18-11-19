@@ -22,6 +22,8 @@ function toDictionary<T>(
   models: T[],
   getId: (model: T) => string
 ): { [key: string]: T } {
+  console.log(models);
+
   return models.reduce(
     (dictionary, model) => ({
       ...dictionary,
