@@ -52,6 +52,8 @@
     "@angular/compiler-cli": "~7.0.0",
     "@angular/language-service": "~7.0.0",
     "@briebug/jest-schematic": "^1.5.0",
+    "@kentan-official/core": "^2.0.8",
+    "@kentan-official/schematics": "^2.0.7",
     "@ngrx/schematics": "^6.1.2",
     "@ngrx/store-devtools": "^6.1.2",
     "@types/jest": "^23.3.9",
