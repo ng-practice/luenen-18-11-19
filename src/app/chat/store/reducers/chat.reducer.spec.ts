@@ -2,16 +2,12 @@ import { Message } from '../../models';
 import { PublishMessageSuccess } from '../actions/chat.actions';
 import { reducer, ChatSlice } from './chat.reducer';
 import { Kentan } from '@kentan-official/core';
-import { ForMessage } from '../../../test/sketches';
+import { ForMessage, ForChatSlice } from '../../../test/sketches';
 
 describe('When a message is about to be stored in the store', () => {
   let slice: ChatSlice;
   beforeEach(() => {
-    slice = {
-      ids: [],
-      entities: {},
-      isMessagePending: false
-    };
+    slice = Kentan.sketch(ForChatSlice).model();
   });
 
   it('should be stored', () => {
