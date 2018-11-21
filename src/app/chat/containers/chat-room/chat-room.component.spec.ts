@@ -7,9 +7,10 @@ import { MessageCardComponent } from '../../components/message-card/message-card
 import { PublishMessageComponent } from '../../components/publish-message/publish-message.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Kentan } from '@kentan-official/core';
-import { ForChatSlice } from 'src/app/test/sketches';
+import { ForChatSlice, ForMessage } from 'src/app/test/sketches';
 import { By } from '@angular/platform-browser';
 import { WrappedSocket } from 'ngx-socket-io/src/socket-io.service';
+import { PublishMessageSuccess } from '../../store/actions/chat.actions';
 
 describe('<chat-room>', () => {
   describe('When a message is sent', () => {
@@ -45,15 +46,23 @@ describe('<chat-room>', () => {
     }));
 
     it('should have 10 messages initially', () => {
-      const messages = chatRoom.debugElement.queryAll(
-        By.css('eb-message-card')
-      );
-      store.select(s => s.chat.history.entities).subscribe(s => console.log(s));
-      // console.log(chatRoom.debugElement);
-
+      const messages = _getMessagesFrom(chatRoom);
       expect(messages.length).toBe(10);
     });
 
-    it('should display a new message', () => {});
+    it('should display a new message', () => {
+      const message = Kentan.sketch(ForMessage).model();
+      store.dispatch(new PublishMessageSuccess(message));
+
+      const before = _getMessagesFrom(chatRoom);
+      chatRoom.detectChanges();
+      const after = _getMessagesFrom(chatRoom);
+
+      expect(after.length).toBe(before.length + 1);
+    });
   });
 });
+
+function _getMessagesFrom<T>(fixture: ComponentFixture<T>) {
+  return fixture.debugElement.queryAll(By.css('eb-message-card'));
+}

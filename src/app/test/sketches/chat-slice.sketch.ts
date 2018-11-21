@@ -10,7 +10,7 @@ export class ForChatSlice extends Sketch<ChatSlice> {
       entities: toDictionary(
         Kentan.sketch(ForMessage)
           .take(10)
-          .models(),
+          .models({ guid: index => `${index}` }),
 
         message => message.guid
       )
@@ -22,8 +22,6 @@ function toDictionary<T>(
   models: T[],
   getId: (model: T) => string
 ): { [key: string]: T } {
-  console.log(models);
-
   return models.reduce(
     (dictionary, model) => ({
       ...dictionary,

@@ -33,6 +33,8 @@ export const { selectEntities: entities } = fromChat.adapter.getSelectors(
   selectHistory
 );
 
+// TODO: Somehow the selector of @ngrx/entity does not work with
+//       Unit-Test. Dear Reader, please investigate. :)
 export const all = createSelector(
   visitChat,
   c => Object.values(c.history.entities)

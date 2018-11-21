@@ -7,7 +7,7 @@ import { ForMessage, ForChatSlice } from '../../../test/sketches';
 describe('When a message is about to be stored in the store', () => {
   let slice: ChatSlice;
   beforeEach(() => {
-    slice = Kentan.sketch(ForChatSlice).model();
+    slice = Kentan.sketch(ForChatSlice).model({ entities: {} });
   });
 
   it('should be stored', () => {

@@ -44,8 +44,7 @@ export class ChatRoomComponent implements AfterViewChecked {
 
     this.messages$ = this._store.pipe(
       select(fromChat.all),
-      tap(messages => (this.noMessagesInChatRoom = messages.length === 0)),
-      tap(messages => console.log(messages))
+      tap(messages => (this.noMessagesInChatRoom = messages.length === 0))
     );
 
     this.isBusy$ = this._store.pipe(select(fromChat.isMessagePending));
