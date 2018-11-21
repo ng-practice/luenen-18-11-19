@@ -1,6 +1,8 @@
 import { Message } from '../../models';
 import { PublishMessageSuccess } from '../actions/chat.actions';
 import { reducer, ChatSlice } from './chat.reducer';
+import { Kentan } from '@kentan-official/core';
+import { ForMessage } from '../../../test/sketches';
 
 describe('When a message is about to be stored in the store', () => {
   let slice: ChatSlice;
@@ -13,7 +15,7 @@ describe('When a message is about to be stored in the store', () => {
   });
 
   it('should be stored', () => {
-    const message: Message = { guid: '1', writtenBy: '1' } as Message;
+    const message = Kentan.sketch(ForMessage).model();
     const action = new PublishMessageSuccess(message);
 
     const newState = reducer(slice, action);
