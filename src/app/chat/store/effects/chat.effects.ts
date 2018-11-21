@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 import { ChatMessagesService } from '../../lib';
 import * as Chat from '../actions/chat.actions';
 import { ChatActionTypes } from '../actions/chat.actions';
 import { Ducks } from '@co-it/ngrx-ducks';
 import { ChatDucks } from '../ducks/chat.ducks';
+import { of } from 'rxjs';
 
 @Injectable()
 export class ChatEffects {
@@ -13,7 +14,8 @@ export class ChatEffects {
   publishMessage$ = this._actions$.pipe(
     ofType<Chat.PublishMessage>(ChatActionTypes.PublishMessage),
     switchMap(({ payload: draft }) => this._messages.publish(draft)),
-    map(message => new Chat.PublishMessageSuccess(message))
+    map(message => new Chat.PublishMessageSuccess(message)),
+    catchError(err => of(new Chat.PublishMessageError(err)))
   );
 
   @Effect()

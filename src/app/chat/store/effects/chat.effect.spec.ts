@@ -2,14 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { Kentan } from '@kentan-official/core';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { marbles } from 'rxjs-marbles';
 import { ForMessage } from 'src/app/test/sketches';
 import { ChatMessagesService } from '../../lib';
 import {
   ChatActions,
   PublishMessageSuccess,
-  PublishMessage
+  PublishMessage,
+  PublishMessageError
 } from '../actions/chat.actions';
 import { ChatEffects } from './chat.effects';
 
@@ -46,6 +47,23 @@ describe('When a message is sent successfully', () => {
 
       actions$ = m.hot('-t', { t: triggeringAction });
       service.publish = jest.fn(() => m.cold('--m', { m: message }));
+
+      m.expect(effect.publishMessage$).toBeObservable(expected);
+    })
+  );
+
+  it.skip(
+    'should provide the an error message if sending fails',
+    marbles(m => {
+      const message = Kentan.sketch(ForMessage).model();
+      const error = new Error('WS ERROR');
+      const triggeringAction = new PublishMessage(message);
+      const errorAction = new PublishMessageError(error);
+
+      const expected = m.cold('----e', { e: errorAction });
+
+      actions$ = m.hot('-t', { t: triggeringAction });
+      service.publish = jest.fn(() => m.cold('---#', {}, error));
 
       m.expect(effect.publishMessage$).toBeObservable(expected);
     })
